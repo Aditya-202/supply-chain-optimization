@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>From Data to Delivery</title>
+    <link rel="stylesheet" href="frontend.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="script.js" defer></script>
+</head>
+<body>
+    <header class="header">
+        <h1 class="title">From Data to Delivery</h1>
+        <nav class="nav">
+            {% if session.get('username') %}
+                <a href="/logout" class="nav-link">Logout</a>
+            {% else %}
+                <a href="/login" class="nav-link">Login</a>
+                <a href="/signup" class="nav-link">Signup</a>
+            {% endif %}
+        </nav>
+    </header>
+
+    <main class="main-container">
+
+        <!-- Upload Section -->
+        <section class="upload-section card">
+            <h2 class="section-title">Upload Your File(.csv)</h2>
+            <div class="file-upload-wrapper">
+                <label for="csv-file" class="upload-label">Choose File</label>
+                <input type="file" id="csv-file" class="file-input" accept=".csv" onchange="updateFileName()">
+                <span id="file-name" class="file-name">No file selected</span>
+            </div>
+            <button id="upload-button" class="upload-btn" onclick="uploadFile()" disabled>Upload</button>
+        </section>
+
+        <!-- Loader -->
+        <div id="loader" style="display:none;" class="loader">Loading...</div>
+
+        <!-- Preprocessing Preview -->
+        <section id="preprocess-container" class="preprocess-container card" style="display:none;">
+            <h2 class="section-title">Preprocessing Results (First 20 Rows)</h2>
+            <div id="preprocess-preview" class="table-container"></div>
+            <div class="analyse-btn-wrapper">
+                <button id="analyse-button" class="upload-btn" onclick="analyzeData()">Analyse</button>
+            </div>
+        </section>
+
+        <!-- Results Section -->
+        <section id="results-container" class="results-container" style="display:none;">
+            <h2 class="section-title">Analysis Results</h2>
+
+            <!-- Q-Learning Section -->
+            <div id="qlearning-section" class="analysis-section card">
+                <h3 class="sub-section-title">Q-Learning Dynamic Pricing</h3>
+                <div id="qlearning-dropdown-container" class="dropdown-container"></div>
+                <div id="q-learning-viz" class="graph-container"></div>
+                <p id="price-legend" class="legend-text"></p>
+            </div>
+
+            <!-- KMeans Section -->
+            <div id="kmeans-section" class="analysis-section card">
+                <h3 class="sub-section-title">K-Means Clustering Delivery Routes</h3>
+                <div id="kmeans-dropdown-container" class="dropdown-container"></div>
+                <div id="kmeans-viz" class="graph-container"></div>
+            </div>
+
+            <!-- Blockchain Upload Button (inside results section) -->
+            <div class="blockchain-btn-wrapper">
+                <button class="blockchain-btn" id="blockchain-button" onclick="uploadToBlockchain()" style="display:none;">Upload to Blockchain</button>
+            </div>
+
+        </section>
+    </main>
+</body>
+</html>
